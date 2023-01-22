@@ -1,6 +1,9 @@
-import reducers from './reducers/index'
-const configureStore = require('@reduxjs/toolkit').configureStore
-
-const store = configureStore({reducer:reducers},{},window.__REDUX_DEVTOOLS_EXTENSION__ ())
-
+import formDataReducer from './reducers/formReducer'
+import {configureStore} from '@reduxjs/toolkit'
+ 
+export const store = configureStore({
+    reducer: {
+    userData : formDataReducer    
+    }
+  })
 export default store; 

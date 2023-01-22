@@ -1,48 +1,62 @@
-import React, { Component } from 'react';
-import FormUserDetails from './FormUserDetails';
-import FormPersonalDetails from './FormPersonalDetails';
-import Confirm from './Confirm';
-import Success from './Success';
-import Header from '../Header';
-
+import React, { Component } from "react";
+import FormUserDetails from "./FormUserDetails";
+import FormPersonalDetails from "./FormPersonalDetails";
+import Confirm from "./Confirm";
+import Success from "./Success";
+import { connect } from "react-redux";
+import { addFormData } from "../../redux/actions/formActions";
 
 export class UserForm extends Component {
-  state = {
-    step: 1,
-    firstName: '',
-    lastName: '',
-    email: '',
-    phoneNumber : '',
-    isUSABased: false,
-    gitProfile:'',
-    bio: ''
-  };
-
   // Proceed to next step
   nextStep = () => {
-    const { step } = this.state;
-    this.setState({
-      step: step + 1
-    });
+    const { step } = this.props.userInfo;
+    this.props.inputChangedFx("step", step + 1);
   };
 
   // Go back to prev step
   prevStep = () => {
-    const { step } = this.state;
-    this.setState({
-      step: step - 1
-    });
+    const { step } = this.props.userInfo;
+    this.props.inputChangedFx("step", step - 1);
   };
 
   // Handle fields change
-  handleChange = input => e => {
-    this.setState({ [input]: e.target.value });
+  handleChange = (input) => (e) => {
+    console.log(this.props.userInfo, "enhancement");
+    if (input === "userCv" || input === "userCoverLetter") {
+      let file = e.target.files[0];
+      let jsonFile = {
+        name: file.name,
+        lastModified: file.lastModified,
+        size: file.size,
+        type: file.type,
+      };
+      let jsonFileString = JSON.stringify(jsonFile);
+      this.props.inputChangedFx(input, jsonFileString);
+    } else {
+      this.props.inputChangedFx(input, e.target.value);
+    }
   };
 
   render() {
-    const { step } = this.state;
-    const { firstName, lastName, email, phoneNumber,isUSABased,gitProfile, bio } = this.state;
-    const values = { firstName, lastName, email, phoneNumber,isUSABased,gitProfile, bio};
+    const {
+      step,
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      isUSABased,
+      gitProfile,
+      bio,
+    } = this.props.userInfo;
+    const values = {
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      isUSABased,
+      gitProfile,
+      bio,
+    };
     switch (step) {
       case 1:
         return (
@@ -70,11 +84,23 @@ export class UserForm extends Component {
           />
         );
       case 4:
-        return <Success/>;
+        return <Success />;
       default:
-        (console.log('This is a multi-step form built with React.'))
+        console.log("This is a multi-step form");
     }
   }
 }
 
-export default UserForm;
+const mapStateToProps = (state) => {
+  return { userInfo: state.userData };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    inputChangedFx: (input, value) => {
+      dispatch(addFormData(input, value));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserForm);

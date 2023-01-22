@@ -1,9 +1,8 @@
 import {combineReducers} from 'redux'
-import {formDataReducer} from './formReducer'
-
+import formDataReducer from './formReducer'
 
 const reducers = combineReducers({
-    userInfo : formDataReducer
+    formDataReducer
 
 })
 

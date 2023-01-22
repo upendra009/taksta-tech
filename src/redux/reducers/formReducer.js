@@ -1,13 +1,28 @@
 import { ActionTypes } from "../contants/action-types"
-
 const initialState = {
-    userInfo : {}
+  step: 1,
+  firstName: '',
+  lastName: '',
+  email: '',
+  phoneNumber : '',
+  isUSABased: false,
+  gitProfile:'',
+  bio: '',
+  userCv:null,
+  userCoverLetter :null
+
 }
-export const  formDataReducer = (state=initialState,{type,payload}) =>{
-  switch (type){
-    case ActionTypes.SET_FORM_DATA:
-        return state;
+
+const  formDataReducer = (state=initialState,addFormData) =>{
+  switch (addFormData.type){
+    case ActionTypes.ADD_FORM_DATA:
+        return {
+           ...state,
+           [addFormData.input]:addFormData.value
+        }
     default:
         return state
   }
 }
+
+export default formDataReducer

@@ -5,8 +5,7 @@ import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 
 export class Success extends Component {
   continue = e => {
-    e.preventDefault();
-    // PROCESS FORM //
+    e.preventDefault(); 
     this.props.nextStep();
   };
 
@@ -26,7 +25,6 @@ export class Success extends Component {
           >
             <AppBar title="Success" />
             <h1>Thank You For Your Submission</h1>
-            <p>You will get an email with further instructions.</p>
           </Dialog>
         </>
       </MuiThemeProvider>
