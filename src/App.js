@@ -5,7 +5,6 @@ import store from './redux/store'
 
 
 function App() {
-  console.log(store.getState(),'nooo')
   return (
     <Provider store={store}>
       <div className="App">

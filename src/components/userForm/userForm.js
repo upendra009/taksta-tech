@@ -21,7 +21,6 @@ export class UserForm extends Component {
 
   // Handle fields change
   handleChange = (input) => (e) => {
-    console.log(this.props.userInfo, "enhancement");
     if (input === "userCv" || input === "userCoverLetter") {
       let file = e.target.files[0];
       let jsonFile = {
